@@ -1,38 +1,40 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import z from 'zod'
-import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
 import { makeCreateEmailUseCase } from '@/use-cases/factories/make-create-email-use-case'
+import { UserNotFoundError } from '@/use-cases/errors/user-not-found-error'
 
 export async function createEmail(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const createEmailBodySchema = z.object({
-    idDeQuemEnviou: z.string(),
-    idDeQuemRecebeu: z.string(),
-    title: z.string(),
-    content: z.string(),
-  })
-
-  const { idDeQuemEnviou, idDeQuemRecebeu, title, content } =
-    createEmailBodySchema.parse(request.body)
-
   try {
+    const createEmailBodySchema = z.object({
+      idDeQuemRecebeu: z.string(),
+      title: z.string(),
+      content: z.string(),
+    })
+
+    const { idDeQuemRecebeu, title, content } = createEmailBodySchema.parse(
+      request.body,
+    )
     const createEmailUseCase = makeCreateEmailUseCase()
 
+    const userId = request.user.sub
+
     await createEmailUseCase.execute({
-      idDeQuemEnviou,
+      idDeQuemEnviou: userId,
       idDeQuemRecebeu,
       title,
       content,
     })
+
+    return reply.status(201).send()
   } catch (err) {
-    if (err instanceof UserAlreadyExistsError) {
-      return reply.status(409).send({ message: err.message })
+    if (err instanceof UserNotFoundError) {
+      return reply.status(404).send({
+        message: 'Usuário não encontrado.',
+      })
     }
-
-    throw err
+    return reply.status(500).send()
   }
-
-  return reply.status(201).send()
 }

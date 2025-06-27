@@ -1,4 +1,6 @@
 import { EmailsRepository } from '@/repositories/emails-repository'
+import { UsersRepository } from '@/repositories/users-repository'
+import { UserNotFoundError } from './errors/user-not-found-error'
 
 interface CreateEmailUseCaseRequest {
   idDeQuemEnviou: string
@@ -8,7 +10,10 @@ interface CreateEmailUseCaseRequest {
 }
 
 export class CreateEmailUseCase {
-  constructor(private emailsRepository: EmailsRepository) {}
+  constructor(
+    private emailsRepository: EmailsRepository,
+    private usersRepository: UsersRepository,
+  ) {}
 
   async execute({
     idDeQuemEnviou,
@@ -16,6 +21,12 @@ export class CreateEmailUseCase {
     title,
     content,
   }: CreateEmailUseCaseRequest) {
+    const sender = await this.usersRepository.findById(idDeQuemRecebeu)
+
+    if (!sender) {
+      throw new UserNotFoundError()
+    }
+
     await this.emailsRepository.create({
       idDeQuemEnviou,
       idDeQuemRecebeu,

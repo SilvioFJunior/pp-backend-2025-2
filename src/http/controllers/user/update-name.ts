@@ -5,14 +5,15 @@ import { makeUpdateNameUseCase } from '@/use-cases/factories/make-update-name-us
 
 export async function updateName(request: FastifyRequest, reply: FastifyReply) {
   const registerBodySchema = z.object({
-    userId: z.string(),
     name: z.string(),
   })
 
-  const { userId, name } = registerBodySchema.parse(request.body)
+  const { name } = registerBodySchema.parse(request.body)
 
   try {
     const updateNameUseCase = makeUpdateNameUseCase()
+
+    const userId = request.user.sub
 
     await updateNameUseCase.execute({
       userId,

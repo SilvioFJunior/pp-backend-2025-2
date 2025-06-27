@@ -1,6 +1,7 @@
 import { Prisma, User } from 'generated/prisma'
 
 export interface UsersRepository {
+  updateProfileImage(userId: string, fotoDePerfil: string): Promise<void>
   updateName(userId: string, name: string): Promise<void>
   findById(userId: string): Promise<User | null>
   findByEmail(email: string): Promise<User | null>

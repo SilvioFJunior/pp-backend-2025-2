@@ -1,20 +1,28 @@
 import { EmailsRepository } from '@/repositories/emails-repository'
 import { Email } from 'generated/prisma'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { EmailNotFoundError } from './errors/email-not-found-error'
+import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 
 interface GetEmailUseCaseRequest {
-  id: string
+  userId: string
+  emailId: string
 }
 
 export class GetEmailUseCase {
   constructor(private emailsRepository: EmailsRepository) {}
 
-  async execute({ id }: GetEmailUseCaseRequest): Promise<Email> {
-    const email = await this.emailsRepository.findById(id)
+  async execute({ userId, emailId }: GetEmailUseCaseRequest): Promise<Email> {
+    const email = await this.emailsRepository.findById(emailId)
 
     if (!email) {
-      throw new ResourceNotFoundError()
+      throw new EmailNotFoundError()
     }
+
+    if (email.idDeQuemEnviou !== userId && email.idDeQuemRecebeu !== userId) {
+      throw new InvalidCredentialsError()
+    }
+
+    email.jaVisto = true
 
     return email
   }

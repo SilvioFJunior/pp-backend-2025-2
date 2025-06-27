@@ -3,6 +3,17 @@ import { Prisma } from 'generated/prisma/client'
 import { UsersRepository } from '../users-repository'
 
 export class PrismaUsersRepository implements UsersRepository {
+  async updateProfileImage(userId: string, fotoDePerfil: string) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        fotoDePerfil,
+      },
+    })
+  }
+
   async updateName(userId: string, name: string) {
     await prisma.user.update({
       where: {
