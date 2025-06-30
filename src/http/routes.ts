@@ -11,7 +11,7 @@ import { verifyJWT } from './middlewares/verify-jwt'
 import { updateImage } from './controllers/user/update-profile-image'
 
 export async function appRoutes(app: FastifyInstance) {
-  app.post('/users', register)
+  app.post('/user', register)
   app.post('/login', authenticate)
   app.get('/my-emails', { onRequest: [verifyJWT] }, myEmails)
   app.patch('/my-image', { onRequest: [verifyJWT] }, updateImage)

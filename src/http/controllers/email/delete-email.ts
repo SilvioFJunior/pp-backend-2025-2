@@ -25,7 +25,7 @@ export async function deleteEmail(
       emailId,
     })
 
-    return reply.status(400).send()
+    return reply.status(204).send()
   } catch (err) {
     if (err instanceof EmailNotFoundError) {
       return reply.status(404).send({
