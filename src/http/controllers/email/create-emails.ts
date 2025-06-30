@@ -9,12 +9,12 @@ export async function createEmail(
 ) {
   try {
     const createEmailBodySchema = z.object({
-      idDeQuemRecebeu: z.string(),
+      emailDeQuemRecebeu: z.string(),
       title: z.string(),
       content: z.string(),
     })
 
-    const { idDeQuemRecebeu, title, content } = createEmailBodySchema.parse(
+    const { emailDeQuemRecebeu, title, content } = createEmailBodySchema.parse(
       request.body,
     )
     const createEmailUseCase = makeCreateEmailUseCase()
@@ -23,7 +23,7 @@ export async function createEmail(
 
     await createEmailUseCase.execute({
       idDeQuemEnviou: userId,
-      idDeQuemRecebeu,
+      emailDeQuemRecebeu,
       title,
       content,
     })

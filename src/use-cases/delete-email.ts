@@ -22,7 +22,7 @@ export class DeleteEmailUseCase {
       throw new EmailAlreadySeenError()
     }
 
-    if (userId !== emailId) {
+    if (userId !== email.idDeQuemEnviou) {
       throw new InvalidCredentialsError()
     }
 

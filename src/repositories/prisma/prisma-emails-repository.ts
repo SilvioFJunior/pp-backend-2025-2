@@ -3,7 +3,18 @@ import { Prisma } from 'generated/prisma/client'
 import { EmailsRepository } from '../emails-repository'
 
 export class PrismaEmailRepository implements EmailsRepository {
-  async delete(emailId: string): Promise<void> {
+  async updateJaVistoEmail(emailId: string) {
+    await prisma.email.update({
+      where: {
+        id: emailId,
+      },
+      data: {
+        jaVisto: true,
+      },
+    })
+  }
+
+  async delete(emailId: string) {
     await prisma.email.delete({
       where: {
         id: emailId,

@@ -4,7 +4,7 @@ import { UserNotFoundError } from './errors/user-not-found-error'
 
 interface CreateEmailUseCaseRequest {
   idDeQuemEnviou: string
-  idDeQuemRecebeu: string
+  emailDeQuemRecebeu: string
   title: string
   content: string
 }
@@ -17,11 +17,11 @@ export class CreateEmailUseCase {
 
   async execute({
     idDeQuemEnviou,
-    idDeQuemRecebeu,
+    emailDeQuemRecebeu,
     title,
     content,
   }: CreateEmailUseCaseRequest) {
-    const sender = await this.usersRepository.findById(idDeQuemRecebeu)
+    const sender = await this.usersRepository.findByEmail(emailDeQuemRecebeu)
 
     if (!sender) {
       throw new UserNotFoundError()
@@ -29,7 +29,7 @@ export class CreateEmailUseCase {
 
     await this.emailsRepository.create({
       idDeQuemEnviou,
-      idDeQuemRecebeu,
+      idDeQuemRecebeu: sender.id,
       title,
       content,
     })

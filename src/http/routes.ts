@@ -12,12 +12,12 @@ import { updateImage } from './controllers/user/update-profile-image'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/users', register)
-  app.post('/sessions', authenticate)
-  app.post('/my-emails', { onRequest: [verifyJWT] }, myEmails)
+  app.post('/login', authenticate)
+  app.get('/my-emails', { onRequest: [verifyJWT] }, myEmails)
   app.patch('/my-image', { onRequest: [verifyJWT] }, updateImage)
   app.patch('/my-name', { onRequest: [verifyJWT] }, updateName)
   app.post('/email', { onRequest: [verifyJWT] }, createEmail)
   app.get('/email/:emailId', { onRequest: [verifyJWT] }, getEmail)
   app.delete('/email/:emailId', { onRequest: [verifyJWT] }, deleteEmail)
-  app.post('/sent-emails', { onRequest: [verifyJWT] }, sentEmails)
+  app.get('/sent-emails', { onRequest: [verifyJWT] }, sentEmails)
 }

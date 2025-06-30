@@ -22,7 +22,9 @@ export class GetEmailUseCase {
       throw new InvalidCredentialsError()
     }
 
-    email.jaVisto = true
+    if (!email.jaVisto) {
+      await this.emailsRepository.updateJaVistoEmail(email.id)
+    }
 
     return email
   }
