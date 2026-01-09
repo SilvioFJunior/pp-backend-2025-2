@@ -22,8 +22,6 @@ model User {
 
   emails          Email[] @relation("EmailRemetente")
   emailsRecebidos Email[] @relation("EmailDestinatario")
-  emails          Email[]
-  emails          Email[]
 
   @@map("users")
 }
@@ -38,8 +36,8 @@ model Email {
   idDeQuemEnviou  String
   idDeQuemRecebeu String
 
-  user         User @relation(fields: [idDeQuemEnviou], references: [id])
-  destinatario User @relation(fields: [idDeQuemRecebeu], references: [id])
+  user         User @relation("EmailRemetente", fields: [idDeQuemEnviou], references: [id])
+  destinatario User @relation("EmailDestinatario", fields: [idDeQuemRecebeu], references: [id])
 
   @@map("emails")
 }
