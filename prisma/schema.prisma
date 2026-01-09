@@ -20,7 +20,10 @@ model User {
   senha        String
   fotoDePerfil String?
 
-  emails Email[]
+  emails          Email[] @relation("EmailRemetente")
+  emailsRecebidos Email[] @relation("EmailDestinatario")
+  emails          Email[]
+  emails          Email[]
 
   @@map("users")
 }
