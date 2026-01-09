@@ -31,10 +31,12 @@ model Email {
   data            DateTime @default(now())
   content         String
   jaVisto         Boolean  @default(false)
+
+  idDeQuemEnviou String
   idDeQuemRecebeu String
 
   user           User   @relation(fields: [idDeQuemEnviou], references: [id])
-  idDeQuemEnviou String
+  destinatario           User   @relation(fields: [idDeQuemEnviou], references: [id])
 
   @@map("emails")
 }

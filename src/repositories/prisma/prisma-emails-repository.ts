@@ -30,6 +30,14 @@ export class PrismaEmailRepository implements EmailsRepository {
       orderBy: {
         data: 'desc',
       },
+      include: {
+        user: {
+          select: { id: true, nome: true, email: true },
+        },
+        destinatario: {
+          select: { id: true, nome: true, email: true },
+        },
+      },
     })
 
     return emails
@@ -43,6 +51,14 @@ export class PrismaEmailRepository implements EmailsRepository {
       orderBy: {
         data: 'desc',
       },
+      include: {
+        user: {
+          select: { id: true, nome: true, email: true },
+        },
+        destinatario: {
+          select: { id: true, nome: true, email: true },
+        },
+      },
     })
 
     return emails
@@ -52,6 +68,14 @@ export class PrismaEmailRepository implements EmailsRepository {
     const email = await prisma.email.findUnique({
       where: {
         id: emailId,
+      },
+      include: {
+        user: {
+          select: { id: true, nome: true, email: true },
+        },
+        destinatario: {
+          select: { id: true, nome: true, email: true },
+        },
       },
     })
 
