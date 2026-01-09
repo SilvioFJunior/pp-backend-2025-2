@@ -26,17 +26,17 @@ model User {
 }
 
 model Email {
-  id              String   @id @default(uuid())
-  title           String
-  data            DateTime @default(now())
-  content         String
-  jaVisto         Boolean  @default(false)
+  id      String   @id @default(uuid())
+  title   String
+  data    DateTime @default(now())
+  content String
+  jaVisto Boolean  @default(false)
 
-  idDeQuemEnviou String
+  idDeQuemEnviou  String
   idDeQuemRecebeu String
 
-  user           User   @relation(fields: [idDeQuemEnviou], references: [id])
-  destinatario           User   @relation(fields: [idDeQuemEnviou], references: [id])
+  user         User @relation(fields: [idDeQuemEnviou], references: [id])
+  destinatario User @relation(fields: [idDeQuemRecebeu], references: [id])
 
   @@map("emails")
 }
