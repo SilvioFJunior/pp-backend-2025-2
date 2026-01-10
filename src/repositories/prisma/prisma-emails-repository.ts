@@ -32,10 +32,10 @@ export class PrismaEmailRepository implements EmailsRepository {
       },
       include: {
         user: {
-          select: { id: true, nome: true, email: true },
+          select: { id: true, name: true, email: true },
         },
         destinatario: {
-          select: { id: true, nome: true, email: true },
+          select: { id: true, name: true, email: true },
         },
       },
     })
@@ -53,10 +53,10 @@ export class PrismaEmailRepository implements EmailsRepository {
       },
       include: {
         user: {
-          select: { id: true, nome: true, email: true },
+          select: { id: true, name: true, email: true },
         },
         destinatario: {
-          select: { id: true, nome: true, email: true },
+          select: { id: true, name: true, email: true },
         },
       },
     })
@@ -71,10 +71,10 @@ export class PrismaEmailRepository implements EmailsRepository {
       },
       include: {
         user: {
-          select: { id: true, nome: true, email: true },
+          select: { id: true, name: true, email: true },
         },
         destinatario: {
-          select: { id: true, nome: true, email: true },
+          select: { id: true, name: true, email: true },
         },
       },
     })
