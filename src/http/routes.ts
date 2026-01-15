@@ -9,6 +9,7 @@ import { updateName } from './controllers/user/update-name'
 import { sentEmails } from './controllers/email/sent-emails'
 import { verifyJWT } from './middlewares/verify-jwt'
 import { updateImage } from './controllers/user/update-profile-image'
+import { userProfile } from './controllers/user/user-profile'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/user', register)
@@ -20,4 +21,5 @@ export async function appRoutes(app: FastifyInstance) {
   app.get('/email/:emailId', { onRequest: [verifyJWT] }, getEmail)
   app.delete('/email/:emailId', { onRequest: [verifyJWT] }, deleteEmail)
   app.get('/sent-emails', { onRequest: [verifyJWT] }, sentEmails)
+  app.get('/profile', { onRequest: [verifyJWT] }, userProfile)
 }
